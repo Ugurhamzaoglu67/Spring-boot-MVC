@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+
+<link rel="stylesheet"  type="text/css" th:href="@{/css/style.css}" />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+<title>Insert title here</title>
+	
+ <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+
+</head>
+<body>
+
+	
+			
+	
+	<div class="container-fluid">
+		 <div class="my-1">
+		
+		 
+		 	<h1 class="text-center nav-item">
+		 		 <a th:href="@{/players}" class="nav-link text-dark d-inline-block">Players Manager	</a>
+		 	</h1>
+		 
+		 	<a class="text-success " th:href="@{/players/new}">
+		 		Create New Player
+		 	</a>
+		 	
+		 	<div th:if="${message != null}">
+		 		<div class="alert text-center alert-success alert-dismissible fade show" role="alert">
+					  <strong>[[${message}]] </strong>
+					  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    <span aria-hidden="true">&times;</span>
+					  </button>
+					</div>
+		 	
+		 	</div>
+		 	
+		 	
+		 	
+		 	
+		 	<div class="mt-2">
+		 		<table class="table table-bordered table-striped table-hover text-center">
+		 		
+		 			<thead class="thead-dark">
+		 				<tr>
+		 					<th scope="col">ID</th> 				
+		 					<th scope="col">Player Name</th>
+		 					<th scope="col">Player Value</th>
+		 					<th scope="col">Operations</th>
+		 				</tr>
+		 			</thead>
+		 			
+		 			
+		 			<tbody>
+		 				<tr th:each="player : ${players}">
+		 					 	<th scope="row">[[${player.playerId}]]</th>
+		 						<td>[[${player.playerName}]]</td>
+		 						<td>[[${player.playerValue}]]</td>
+		 						<td class="col-md-2">
+		 							<a class="btn btn-outline-success" th:href="@{'/players/edit/'} + ${player.playerId}" 
+		 							title="Edit this player">
+		 								Edit
+		 							</a>
+		 							
+		 							<a class="btn btn-outline-danger linkDelete" th:href="@{'/players/delete/' + ${player.playerId}}"
+		 								title="Delete This player"
+		 								th:playerId="${player.playerId}"
+		 							>
+		 								Delete
+		 							</a>
+		 						</td>
+		 				</tr>
+		 			</tbody>
+		 			
+		 		</table>	
+		 	</div>
+		 	
+		 	
+		 </div>
+	</div>
+	
+	
+	
+	<!-- Modal -->
+					<div class="modal fade text-center" id="confirmDeleteModal" tabindex="-1">
+						  <div class="modal-dialog">
+						    <div class="modal-content">
+						    
+						      <div class="modal-header">
+						        <h5 class="modal-title">Delete Confirmation</h5>
+						        
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						        
+						      </div>
+						      
+						      <div class="modal-body">
+						        <p id="modalBody"></p>
+						      </div>
+						      
+						      <div class="modal-footer">
+						        <a class="btn btn-danger" href="" id="yesDeleteBtn">Yes</a>
+						        <button type="button" class="btn btn-dark" data-dismiss="modal">No</button>
+						      </div> 
+						      
+						    </div>
+						  </div>
+					</div>
+	<!-- /Modal -->	
+	
+	
+	
+	
+	
+	
+	
+
+	
+
+	<!--   Delete Button CLICK and Are you sure want to Delete ? -->
+		<script type="text/javascript">
+			$(document).ready(function () {
+				$(".linkDelete").on("click", function (e) {
+					e.preventDefault();
+					//alert($(this).attr("href"));
+					
+					link = $(this);
+					
+					playerId = link.attr("playerId");
+					
+						
+					$("#yesDeleteBtn").attr("href", link.attr("href"));
+					$("#modalBody").text("Are you sure want to delete this "+playerId+" ID : ?");
+					$("#confirmDeleteModal").modal();
+				});
+			});
+			
+			
+		
+			
+		
+		</script>
+	
+	
+
+
+
+</body>
+</html>
